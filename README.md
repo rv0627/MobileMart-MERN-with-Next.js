@@ -1,4 +1,4 @@
-# Mobile Mart - E-Commerce Platform
+# MobileMart-MERN-with-Next.js
 
 A modern, full-stack e-commerce platform for mobile devices and accessories built with Next.js and Node.js/Express.
 
