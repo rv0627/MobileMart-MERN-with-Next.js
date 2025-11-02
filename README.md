@@ -128,7 +128,7 @@ Contributions, issues, and feature requests are welcome!
 
 ## 👤 Author
 
-Your Name - [Your GitHub](https://github.com/yourusername)
+Ravindu Maleesha - [GitHub](https://github.com/rv0627)
 
 ---
 
