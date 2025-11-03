@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useAuth } from "./AuthProvider";
 import { FiShoppingCart } from "react-icons/fi";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,9 +39,40 @@ function Header() {
             <Link href="/products" className="text-white hover:text-blue-100 transition">Product</Link>
             <Link href="/about" className="text-white hover:text-blue-100 transition">About</Link>
             <Link href="/contact" className="text-white hover:text-blue-100 transition">Contact Us</Link>
-            <Link href="/signIn" className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
-              Login
-            </Link>
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen((v) => !v)}
+                  className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition"
+                >
+                  {user.name}
+                </button>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white text-gray-800 rounded-lg shadow-lg z-20">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        logout();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/signIn" className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                Login
+              </Link>
+            )}
             <Link href='/cart'><FiShoppingCart className="w-5 h-5 text-white" /></Link>
           </div>
 
@@ -75,9 +109,24 @@ function Header() {
               <Link href="/products" className="text-white hover:text-blue-100 transition">Product</Link>
               <Link href="/about" className="text-white hover:text-blue-100 transition">About</Link>
               <Link href="/contact" className="text-white hover:text-blue-100 transition">Contact Us</Link>
-              <Link href="/signIn" className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg inline-block transition">
-                Login
-              </Link>
+              {user ? (
+                <div className="flex flex-col space-y-2">
+                  <span className="text-white">{user.name}</span>
+                  <Link href="/profile" className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg inline-block transition">
+                    Profile
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-lg inline-block transition text-left"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link href="/signIn" className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg inline-block transition">
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         )}
