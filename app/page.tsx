@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiShoppingCart } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
+import { useAuth } from './(component)/AuthProvider';
 
 const products = [
   {
@@ -12,7 +13,7 @@ const products = [
     name: 'iPhone 14 Pro',
     price: 999,
     rating: 4.8,
-    image: '/products/iphone14pro.jpg',
+    image: '/products_img/Apple-iPhone-14-Pro.jpg',
     description: '6.1-inch Super Retina XDR display',
   },
   {
@@ -20,7 +21,7 @@ const products = [
     name: 'Samsung Galaxy S23',
     price: 899,
     rating: 4.7,
-    image: '/products/galaxys23.jpg',
+    image: '/products_img/Galaxy_S23.jpg',
     description: '6.8-inch Dynamic AMOLED display',
   },
   {
@@ -28,7 +29,7 @@ const products = [
     name: 'Google Pixel 7',
     price: 599,
     rating: 4.6,
-    image: '/products/pixel7.jpg',
+    image: '/products_img/pixel 7.jpg',
     description: '6.3-inch OLED display',
   },
   {
@@ -36,7 +37,7 @@ const products = [
     name: 'OnePlus 11',
     price: 699,
     rating: 4.5,
-    image: '/products/oneplus11.jpg',
+    image: '/products_img/one plus 11.png',
     description: '6.7-inch AMOLED display',
   },
   // Add more products as needed
@@ -52,6 +53,7 @@ export default function Home() {
 
   const [current, setCurrent] = useState(0);
   const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
+  const { user, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
@@ -68,6 +70,7 @@ export default function Home() {
           console.error('Error loading cart:', error);
         }
       }
+      // auth state is managed by AuthProvider; no local load here
     }
   }, []);
 
@@ -213,18 +216,35 @@ export default function Home() {
       <div className="max-w-7xl mx-auto text-center">
         <h1 className="text-4xl font-bold text-gray-800 mb-8">Welcome to Mobile Mart</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <Link
-            href="/signIn"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium px-8 py-3 rounded-full transition-colors duration-200"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/signUp"
-            className="inline-block bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium px-8 py-3 rounded-full transition-colors duration-200"
-          >
-            Sign Up
-          </Link>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-gray-800">Signed in as <strong>{user.name}</strong></span>
+                <button
+                  onClick={() => {
+                    try { localStorage.removeItem('mm_token'); } catch {}
+                    logout();
+                  }}
+                  className="inline-block bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded-full"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/signIn"
+                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium px-8 py-3 rounded-full transition-colors duration-200"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signUp"
+                  className="inline-block bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium px-8 py-3 rounded-full transition-colors duration-200"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
         </div>
 
         {/* Products Grid */}

@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import styles from "../login.module.css";
 import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const router = useRouter();
@@ -191,18 +191,21 @@ export default function SignUp() {
                 </div>
               </div>
 
-              <div className="grid-cols-12 mt-3">
+              
+            </form>
+            <div className="grid-cols-12 mt-3">
                 <div className="grid-flow-row flex justify-center">
-                  <button
-                    className="hoverEffect cursor-pointer bg-white p-3 w-100 gap-3 rounded-full font-sans flex items-center justify-center"
-                    style={{ fontSize: "18px" }}
-                  >
-                    <FcGoogle size={24} />
-                    <span className="text-gray-700">Sign up with Google</span>
-                  </button>
+                  <a href="http://localhost:3001/auth/google">
+                    <button
+                      className="hoverEffect cursor-pointer bg-white p-3 w-100 gap-3 rounded-full font-sans flex items-center justify-center"
+                      style={{ fontSize: "18px" }}
+                    >
+                      <FcGoogle size={24} />
+                      <span className="text-gray-700">Sign up with Google</span>
+                    </button>
+                  </a>
                 </div>
               </div>
-            </form>
           </div>
         </div>
       </div>

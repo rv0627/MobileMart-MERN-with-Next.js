@@ -4,9 +4,9 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { useRouter } from "next/navigation";
 
 type User = {
-  userId: number;
-  name: string;
-  email: string;
+  userId?: number | string;
+  name?: string;
+  email?: string;
 } | null;
 
 type AuthContextValue = {

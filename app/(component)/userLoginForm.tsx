@@ -65,7 +65,6 @@ export default function userLoginForm() {
         "http://localhost:3001/api/userLogin",
         formData
       );
-      // Persist minimal user info for header
       if (res?.data) {
         const { userId, name, email } = res.data;
         try {
@@ -74,7 +73,6 @@ export default function userLoginForm() {
             JSON.stringify({ userId, name, email })
           );
         } catch {}
-        // Update global auth state so Header updates immediately
         setUser({ userId, name, email });
       }
       router.push("/");
@@ -95,8 +93,8 @@ export default function userLoginForm() {
   };
 
   return (
-    <form className="mt-4 sm:mt-6" onSubmit={handleSubmit}>
-      <div className="space-y-4">
+    <div className="space-y-4">
+      <form className="mt-4 sm:mt-6" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email" className="block font-medium mb-2">
             Email
@@ -167,16 +165,17 @@ export default function userLoginForm() {
             </span>
           </div>
         </div>
-
+      </form>
+      <a href="http://localhost:3001/auth/google">
         <button
           type="button"
-          className="w-full bg-white hover:bg-gray-50 p-3 rounded-full font-sans flex items-center justify-center gap-3 transition-colors duration-200 ease-in-out border border-gray-300"
+          className="cursor-pointer w-full bg-white hover:bg-gray-50 p-3 rounded-full font-sans flex items-center justify-center gap-3 transition-colors duration-200 ease-in-out border border-gray-300"
           suppressHydrationWarning={true}
         >
           <FcGoogle size={24} />
           <span className="text-gray-700 text-lg">Sign in with Google</span>
         </button>
-      </div>
-    </form>
+      </a>
+    </div>
   );
 }
