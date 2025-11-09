@@ -1,3 +1,6 @@
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -7,9 +10,7 @@ const host = '127.0.0.1'
 const mongoose = require('mongoose');
 const router = require('./router');
 const authRoutes = require("./authRoutes");
-
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+const checkoutRoutes = require('./routes/checkout');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 
@@ -21,7 +22,14 @@ app.use(cookieParser());
 require('../config/passport')(passport);
 app.use(passport.initialize());
 
-const mongoURI = 'mongodb+srv://ravindu:Ravindu0627@cluster0.z6eqoh8.mongodb.net/mobile_mart?retryWrites=true&w=majority&appName=Cluster0';
+app.use("/uploads",express.static("uploads"));
+
+const mongoURI = process.env.MONGODB_URI;
+
+if (!mongoURI) {
+    console.error('MONGODB_URI is not defined in environment variables');
+    process.exit(1);
+}
 
 const connectDB = async()=>{
     try{
@@ -55,5 +63,6 @@ const startServer = app.listen(port,host,()=>{
     console.log(`Server is running on http://${host}:${port}`);
 });
 app.use('/api',router);
+app.use('/api/checkout', checkoutRoutes);
 
 app.use('/auth', authRoutes);

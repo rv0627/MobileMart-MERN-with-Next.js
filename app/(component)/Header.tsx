@@ -56,6 +56,13 @@ function Header() {
                     >
                       Profile
                     </Link>
+                    <Link
+                      href="/addProduct"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Add Product
+                    </Link>
                     <button
                       className="w-full text-left px-4 py-2 hover:bg-gray-100"
                       onClick={() => {
@@ -81,6 +88,8 @@ function Header() {
             <button
               onClick={toggleMenu}
               className="text-white hover:text-blue-100 focus:outline-none"
+              type="button"
+              aria-label="Toggle menu"
             >
               <svg
                 className="h-6 w-6"
